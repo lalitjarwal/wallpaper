@@ -16,57 +16,59 @@ class ImageView extends StatelessWidget {
   final int? index;
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        systemOverlayStyle:
-            SystemUiOverlayStyle(statusBarColor: Colors.transparent),
-      ),
-      extendBodyBehindAppBar: true,
-      floatingActionButton:
-          FabCircularMenu(ringColor: Colors.black26, children: [
-        IconButton(
-            tooltip: 'Info',
-            onPressed: () {
-              Get.defaultDialog(
-                  title: "Photo Info",
-                  content: buildInfo(),
-                  confirm: OutlinedButton(
-                      style:
-                          OutlinedButton.styleFrom(primary: Colors.tealAccent),
-                      onPressed: () {
-                        Get.back();
-                      },
-                      child: Text('Ok')));
-            },
-            icon: Icon(Icons.info)),
-        IconButton(
-            onPressed: () async {
-              Get.bottomSheet(buildBottomSheet(context));
-            },
-            tooltip: 'Set As',
-            icon: Icon(Icons.photo)),
-        IconButton(
-            onPressed: () => Share.share(
-                  "Check this cool image by ${image.photographer} at ${image.url}"),
-            tooltip: 'Share',
-            icon: Icon(Icons.share))
-      ]),
-      body: Container(
-        width: Get.width,
-        height: Get.height,
-        child: Hero(
-          tag: index!,
-          child: InteractiveViewer(
-            child: CachedNetworkImage(
-              imageUrl: "${image.src!.large2X}",
-              placeholder: (_, __) => const Center(
-                child: CircularProgressIndicator(
-                  valueColor: AlwaysStoppedAnimation<Color>(Colors.black),
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          systemOverlayStyle:
+              SystemUiOverlayStyle(statusBarColor: Colors.transparent),
+        ),
+        extendBodyBehindAppBar: true,
+        floatingActionButton:
+            FabCircularMenu(ringColor: Colors.black26, children: [
+          IconButton(
+              tooltip: 'Info',
+              onPressed: () {
+                Get.defaultDialog(
+                    title: "Photo Info",
+                    content: buildInfo(),
+                    confirm: OutlinedButton(
+                        style:
+                            OutlinedButton.styleFrom(primary: Colors.tealAccent),
+                        onPressed: () {
+                          Get.back();
+                        },
+                        child: Text('Ok')));
+              },
+              icon: Icon(Icons.info)),
+          IconButton(
+              onPressed: () async {
+                Get.bottomSheet(buildBottomSheet(context));
+              },
+              tooltip: 'Set As',
+              icon: Icon(Icons.photo)),
+          IconButton(
+              onPressed: () => Share.share(
+                    "Check this cool image by ${image.photographer} at ${image.url}"),
+              tooltip: 'Share',
+              icon: Icon(Icons.share))
+        ]),
+        body: Container(
+          width: Get.width,
+          height: Get.height,
+          child: Hero(
+            tag: index!,
+            child: InteractiveViewer(
+              child: CachedNetworkImage(
+                imageUrl: "${image.src!.large2X}",
+                placeholder: (_, __) => const Center(
+                  child: CircularProgressIndicator(
+                    valueColor: AlwaysStoppedAnimation<Color>(Colors.black),
+                  ),
                 ),
+                fit: BoxFit.cover,
               ),
-              fit: BoxFit.cover,
             ),
           ),
         ),

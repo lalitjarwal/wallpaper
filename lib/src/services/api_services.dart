@@ -27,6 +27,7 @@ class ApiManager {
           )!,
           headers: _headers);
       if (response.statusCode == 200) {
+        print(response.body);
         return searchResultFromJson(response.body);
       } else {
         _error = jsonDecode(response.body)['error'];
@@ -45,7 +46,7 @@ class ApiManager {
   }
 
   @protected
-  static _getData() async {
+  static Future<Trending> _getData() async {
     var _error = "";
     try {
       var response = await get(
@@ -74,19 +75,20 @@ class ApiManager {
   }
 
   static Future<Trending> getTrending() async {
-    Duration? duration = Duration(minutes: 4);
+    Duration? duration = Duration.zero;
     if (Cache.checkCache('time')) {
-      duration = DateTime.tryParse(Cache.readCache('time'))!
-          .difference(DateTime.now());
+      duration = DateTime.now()
+          .difference(DateTime.tryParse(Cache.readCache('time'))!);
     }
-    print(duration.compareTo(Duration(minutes: 3)));
-    int comparison = duration.compareTo(Duration(minutes: 3));
-    print(comparison < 0);
-    print(Cache.checkCache('trending'));
-    if (comparison < 0 && !Cache.checkCache('trending')) {
+    int comparison = duration.compareTo(Duration(hours: 1));
+    if (!Cache.checkCache('trending')) {
       print("calling.....");
-     return _getData();
+      return _getData();
     } else {
+      if (comparison > 0) {
+        print("Calling...!");
+        return _getData();
+      }
       print("calling from cache");
       return trendingFromJson(Cache.readCache('trending'));
     }

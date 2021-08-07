@@ -17,7 +17,7 @@ class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: Drawer(),
+      // drawer: Drawer(),
       appBar: AppBar(
         title: Text('Wallpaper App'),
         actions: [buildSearch(context)],
@@ -33,7 +33,7 @@ class Home extends StatelessWidget {
               itemBuilder: (context, index) {
                 var entry = catagories.entries.toList()[index];
                 return GestureDetector(
-                  onTap: () =>Get.to(()=>SearchResultsView(query: entry.key)),
+                  onTap: () =>Get.to(()=>SearchResultsView(query: entry.key,isShortcut: true,)),
                   child: Container(
                     height: 46,
                     width: 100,
