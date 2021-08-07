@@ -27,6 +27,7 @@ class Home extends StatelessWidget {
           SizedBox(
             height: 50,
             child: ListView.builder(
+              physics: const BouncingScrollPhysics(),
               itemCount: catagories.length,
               scrollDirection: Axis.horizontal,
               itemBuilder: (context, index) {
@@ -65,7 +66,7 @@ class Home extends StatelessWidget {
                 if (snapshot.hasData) {
                   var data = snapshot.data!;
                   // print(data.totalResults);
-                  return StaggeredGridView.countBuilder(
+                  return StaggeredGridView.countBuilder(physics: const BouncingScrollPhysics(),
                     crossAxisCount: 4,
                     padding: const EdgeInsets.all(8.0),
                     itemCount: data.photos!.length,
@@ -81,9 +82,7 @@ class Home extends StatelessWidget {
                           tag: index,
                           child: CachedNetworkImage(
                             imageUrl: "${data.photos![index].src!.medium}",
-                            placeholder: (_, __) => Center(
-                              child: CircularProgressIndicator(),
-                            ),
+                            placeholder: (_, __) => Container(color: Colors.grey.shade800,width: Get.width,height: Get.height,),
                             fit: BoxFit.cover,
                           ),
                         ),

@@ -37,8 +37,10 @@ class SearchResultsView extends StatelessWidget {
                     tag: index,
                     child: CachedNetworkImage(
                       imageUrl: "${data.photos![index].src!.medium}",
-                      placeholder: (_, __) => Center(
-                        child: CircularProgressIndicator(),
+                      placeholder: (_, __) => Container(
+                        color: Colors.grey.shade800,
+                        width: Get.width,
+                        height: Get.height,
                       ),
                       fit: BoxFit.cover,
                     ),
@@ -49,6 +51,11 @@ class SearchResultsView extends StatelessWidget {
                   StaggeredTile.count(2, index.isEven ? 5 : 3),
               mainAxisSpacing: 8.0,
               crossAxisSpacing: 8.0,
+            );
+          }
+          else if(snapshot.data==null){
+             return Center(
+              child: Text("Image not found."),
             );
           } else {
             return Center(
